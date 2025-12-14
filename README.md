@@ -96,3 +96,25 @@ crea un file tsconfig.json
 }
 ``` 
 
+4. crea una cartella src e al suo interno un file index.ts hello world
+
+``` typescript
+console.log("Hello, Node.js with TypeScript!");
+```
+
+5. per eseguire il file index.ts usa il comando
+
+``` bash
+npx ts-node src/index.ts
+```
+mentre per trasformare il codice typescript in javascript esegui
+
+``` bash
+ tsc
+```
+e questo verrà salvato nella cartella dist
+
+
+
+
+
