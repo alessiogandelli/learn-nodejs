@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Browser Capabilities Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .demo-section {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input, textarea {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #output {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Browser Capabilities</h1>
+
+    <div class="demo-section">
+        <h2>1. DOM Manipulation</h2>
+        <button onclick="changeColor()">Change Background</button>
+        <button onclick="addElement()">Add Element</button>
+        <div id="output"></div>
+    </div>
+
+    <div class="demo-section">
+        <h2>2. User Input & Events</h2>
+        <input type="text" id="userInput" placeholder="Type something...">
+        <button onclick="showInput()">Show Input</button>
+        <p id="inputDisplay"></p>
+    </div>
+
+    <div class="demo-section">
+        <h2>3. Browser Info</h2>
+        <button onclick="showBrowserInfo()">Show Browser Info</button>
+        <div id="browserInfo"></div>
+    </div>
+
+    <div class="demo-section">
+        <h2>4. Local Storage</h2>
+        <input type="text" id="storageInput" placeholder="Save something...">
+        <button onclick="saveToStorage()">Save</button>
+        <button onclick="loadFromStorage()">Load</button>
+        <p id="storageOutput"></p>
+    </div>
+
+    <div class="demo-section">
+        <h2>5. Fetch API</h2>
+        <button onclick="fetchData()">Fetch Random User</button>
+        <div id="fetchOutput"></div>
+    </div>
+
+    <div class="demo-section">
+        <h2>6. Geolocation</h2>
+        <button onclick="getLocation()">Get My Location</button>
+        <div id="locationOutput"></div>
+    </div>
+
+    <script>
+        // DOM Manipulation
+        function changeColor() {
+            const colors = ['#ffebee', '#e3f2fd', '#e8f5e9', '#fff3e0', '#f3e5f5'];
+            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function addElement() {
+            const output = document.getElementById('output');
+            const newEl = document.createElement('p');
+            newEl.textContent = `Element added at ${new Date().toLocaleTimeString()}`;
+            output.appendChild(newEl);
+        }
+
+        // User Input
+        function showInput() {
+            const input = document.getElementById('userInput').value;
+            document.getElementById('inputDisplay').textContent = `You typed: ${input}`;
+        }
+
+        // Browser Info
+        function showBrowserInfo() {
+            const info = `
+                <strong>User Agent:</strong> ${navigator.userAgent}<br>
+                <strong>Language:</strong> ${navigator.language}<br>
+                <strong>Platform:</strong> ${navigator.platform}<br>
+                <strong>Screen:</strong> ${screen.width}x${screen.height}
+            `;
+            document.getElementById('browserInfo').innerHTML = info;
+        }
+
+        // Local Storage
+        function saveToStorage() {
+            const value = document.getElementById('storageInput').value;
+            localStorage.setItem('myData', value);
+            document.getElementById('storageOutput').textContent = 'Saved!';
+        }
+
+        function loadFromStorage() {
+            const value = localStorage.getItem('myData');
+            document.getElementById('storageOutput').textContent = `Stored value: ${value || 'Nothing saved'}`;
+        }
+
+        // Fetch API
+        async function fetchData() {
+            const output = document.getElementById('fetchOutput');
+            output.textContent = 'Loading...';
+            try {
+                const response = await fetch('https://randomuser.me/api/');
+                const data = await response.json();
+                const user = data.results[0];
+                output.innerHTML = `
+                    <strong>Name:</strong> ${user.name.first} ${user.name.last}<br>
+                    <strong>Email:</strong> ${user.email}<br>
+                    <strong>Location:</strong> ${user.location.city}, ${user.location.country}
+                `;
+            } catch (error) {
+                output.textContent = 'Error fetching data';
+            }
+        }
+
+        // Geolocation
+        function getLocation() {
+            const output = document.getElementById('locationOutput');
+            if (navigator.geolocation) {
+                output.textContent = 'Getting location...';
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        output.innerHTML = `
+                            <strong>Latitude:</strong> ${position.coords.latitude}<br>
+                            <strong>Longitude:</strong> ${position.coords.longitude}
+                        `;
+                    },
+                    (error) => {
+                        output.textContent = 'Location access denied or unavailable';
+                    }
+                );
+            } else {
+                output.textContent = 'Geolocation not supported';
+            }
+        }
+    </script>
+</body>
+</html>

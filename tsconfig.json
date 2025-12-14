@@ -1,0 +1,28 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+
+  "compilerOptions": {
+    /* === Runtime === */
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    /* === Core Type Safety === */
+    "strict": true,
+
+    /* === Interop & sanity === */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* === Build output === */
+    "outDir": "dist",
+    "rootDir": "src",
+    "sourceMap": true,
+
+    /* === Noise control === */
+    "skipLibCheck": true
+  },
+
+   "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+}
